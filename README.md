@@ -1,5 +1,5 @@
 # Mithril
-[Mithril](https://mithril.js.org/index.html)中文文档翻译、学习.
+[Mithril-2.0.4](https://mithril.js.org/index.html)中文文档翻译、学习.
 
 ## 介绍
 
@@ -21,7 +21,7 @@
 
 ### 开始学习
 > 尝试使用Mithril的一个简单方法是从CDN中包含它，并遵循本教程。它将覆盖大部分API列表(包括路由和网络)，而且你学习这些只需要10分钟。    
-> 让我们创建一个HTML文件:`demo1.html`(以下所有示例代码在code文件夹下)
+> 让我们创建一个HTML文件:`demo1.html`(以下所有示例代码在code/Introduction文件夹下)
 
 >   
 ```
@@ -202,8 +202,6 @@ var Hello = {
 > 我们介绍了如何创建和更新HTML，如何创建组件，单页应用程序的路由以及如何通过XHR与服务器交互.    
 > 这应该足以让您开始为实际应用程序编写前端。 如果你对Mithril API的基础知识感到满意，请确保阅读简单的应用程序教程，该教程将引导您完成构建实际的应用程序。
 
-License: MIT. © Leo Horie.
-
 ## 安装
 
 ### CDN
@@ -226,4 +224,109 @@ npm install mithril --save
  ```
 npm install @types/mithril --save-dev
 ```
-> 示例用法，文档问题或讨论TypeScript相关主题你可以访问：https://github.com/MithrilJS/mithril.d.ts
+> 示例用法，文档问题或讨论TypeScript相关主题你可以访问：https://github.com/MithrilJS/mithril.d.ts。 
+> Mithril的预发行版本的类型定义（在下一个分支）与类型开发版本库的下一个分支对齐。 您可以通过以下方式安装这些类型:   
+
+```
+$ npm install -D MithrilJS/mithril.d.ts#next
+```
+
+### 使用Webpack快速启动
+> 代码见code/installation
+
+> 1. npm初始化项目    
+```
+npm init --yes
+```
+> 2. 安装mithril
+```
+npm install mithril --save
+npm install webpack webpack-cli --save-dev
+```
+> 3. 在package.json中配置启动参数
+```
+{
+   // ...
+    "scripts":{
+        "start":"webpack src/index.js --output bin/app.js -d -watch
+    }
+}
+```
+> 4. 新建src/index.js
+```
+import m from 'mithril';
+m.render(document,body,'hello world');
+```
+> 5. 新建src/index.html
+```
+……
+<body>
+    <script src="bin/app.js"></script>
+</body>    
+……
+```
+> 6. 启动项目
+```
+npm start
+```
+> 7. 在浏览器中打开index.html
+
+> 8. 生产构建   
+> 如果你打开bin/app。你会注意到Webpack包并没有压缩，所以这个文件并不适合实际应用。  
+> 若要生成缩小文件，请打开package.json。添加一个新的npm脚本:    
+```
+{
+    "scripts": {
+        "start": "webpack src/index.js --output bin/app.js -d --watch",
+        "build": "webpack src/index.js --output bin/app.js -p",
+    }
+}
+```
+> 您可以在生产环境中使用钩子来自动运行生产构建脚本,下面是一个来自[Heroku](https://www.heroku.com/)的例子：  
+```
+{
+    "scripts": {
+        "start": "webpack -d --watch",
+        "build": "webpack -p",
+        "heroku-postbuild": "webpack -p"
+    }
+}
+```
+
+### 使用Mithril的交互方法
+#### 实时重载开发环境   
+> 实时重载是一项特性，其中代码更改会自动触发页面重新加载。 Budo是启用实时重新加载的一种工具。   
+```
+# 1) install
+npm install mithril --save
+npm install budo -g
+
+# 2) add this line into the scripts section in package.json
+#    "scripts": {
+#        "start": "budo --live --open index.js"
+#    }
+
+# 3) create an `index.js` file
+
+# 4) run budo
+npm start
+```
+> 源文件index.js将被编译(绑定)并打开一个显示结果的浏览器窗口。源文件中的任何更改将立即被重新编译，浏览器将刷新以反映更改。  
+> 如果由于公司安全策略而无法运行捆绑程序脚本，则可以选择完全不使用模块系统：    
+```
+// html
+<html>
+  <head>
+    <title>Hello world</title>
+  </head>
+  <body>
+    <script src="https://unpkg.com/mithril/mithril.js"></script>
+    <script src="index.js"></script>
+  </body>
+</html>
+
+// index.js
+
+// if a CommonJS environment is not detected, Mithril will be created in the global scope
+m.render(document.body, "hello world")
+```

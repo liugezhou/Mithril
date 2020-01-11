@@ -1,0 +1,22 @@
+{
+  "name": "installation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "startnotes": "webpack src/index.js --output bin/app.js -d --watch",
+    "build": "webpack src/index.js --output bin/app.js -p",
+    "start": "budo --live --open src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "budo": "^11.6.3",
+    "mithril": "^2.0.4"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
+  }
+}
